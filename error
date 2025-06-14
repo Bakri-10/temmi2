@@ -1,0 +1,16 @@
+{
+  "Cause": "{\"errorType\":\"TOFValidationErrors\",\"errorMessage\":\"[{\\\"name\\\":\\\"TOFPreExecutionValidationException\\\",\\\"message\\\":\\\"Pre execution stage failed with validation errors\\\"}]\",\"trace\":[\"Error\",\"    at Runtime.handler (/var/task/index.js:144:24)\",\"    at Runtime.handleOnceNonStreaming (file:///var/runtime/index.mjs:1187:29)\"]}",
+  "Error": "TOFValidationErrors",
+  "ExecutionArn": "arn:aws:states:eu-west-1:959904340079:execution:sfceng14269-CentralOrchestrationWorkflow:s1t1-akintadet-TA1-1406-215458-deploy-fcn-sample-cdk-component-2.15.2",
+  "Input": "{\"app\":\"fcn-sample-cdk-component\",\"version\":\"2.15.2\",\"command\":\"deploy\",\"manualApprovalRequired\":false,\"customer\":{\"customerPrefix\":\"akintadet\",\"zone\":\"ENG\"},\"envList\":[\"TA1\"],\"custom\":{\"FCCH\":{\"FCCH_Execution\":\"arn:aws:states:eu-west-1:959904340079:execution:sfceng14269-cloud-control-hub-workflow:51c7d156-75d5-4da6-8c95-d507dce1faed\",\"FCCH_Instance\":{\"Id\":\"arn:aws:states:eu-west-1:959904340079:stateMachine:sfceng14269-cloud-control-hub-workflow\",\"Name\":\"sfceng14269-cloud-control-hub-workflow\"},\"FCCH_Input\":{\"template\":\"fcch_templates/fcr-cch-install.json\",\"params\":{\"customer\":{\"customerPrefix\":\"akintadet\",\"zone\":\"ENG\"},\"envList\":[\"TA1\"]}}}},\"executionName\":\"s1t1-akintadet-TA1-1406-215458-deploy-fcn-sample-cdk-component-2.15.2\",\"envPrefix\":\"TA1\",\"usePackaged\":true}",
+  "InputDetails": {
+    "Included": true
+  },
+  "Name": "s1t1-akintadet-TA1-1406-215458-deploy-fcn-sample-cdk-component-2.15.2",
+  "RedriveCount": 0,
+  "RedriveStatus": "REDRIVABLE",
+  "StartDate": 1749938175861,
+  "StateMachineArn": "arn:aws:states:eu-west-1:959904340079:stateMachine:sfceng14269-CentralOrchestrationWorkflow",
+  "Status": "FAILED",
+  "StopDate": 1749938333591
+}
