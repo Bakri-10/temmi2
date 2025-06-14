@@ -1,0 +1,52 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "description": {"type": "string"},
+        "version": {"type": "string"},
+        "stages": {
+            "type": "array",
+            "items" : {
+                "type": "object",
+                "properties": {
+                    "stage": {"type": "string"},
+                    "parallel": {"type": "boolean"},
+                    "description": {"type": "string"},
+                    "tasks": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "taskname": {"type": "string"},
+                                "description": {"type": "string"},
+                                "enabled" : {"type" : "boolean", "default": true},
+                                "deploymentLevel": {"type": "string", "pattern": "(zone|env)"},
+                                "params": {
+                                    "type": "object",
+                                    "properties": {
+                                        "app": {"type": "string"},
+                                        "command": {"type": "string"},
+                                        "version": {"type": "string"},
+                                        "validationMode": {"type": "boolean"},
+                                        "manualApprovalRequired": {"type": "boolean"},
+                                        "expectedServiceVersion": {"type": "string"},
+                                        "stackName": {"type": "string"},
+                                        "envPrefix": {"type": "string"},                                        
+                                        "executionName" : {"type": "string"}
+                                    },
+                                    "required": ["app","command", "version"]
+                                }      
+                            },
+                            "required": ["taskname", "params"],
+                            "additionalProperties": false
+                        }
+                    }
+                },
+                "required": ["stage", "parallel", "tasks"],
+                "additionalProperties": false
+            }
+        }
+    },
+    "required": ["stages", "name", "version"],
+    "additionalProperties": false
+}

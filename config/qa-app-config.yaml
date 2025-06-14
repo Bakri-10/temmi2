@@ -1,0 +1,12 @@
+roles:
+  customer: CentralOrchestrationBuilderRole
+  source: IaCCrossAccountCodeCommitRole
+  vending: CentralOrchestrationDeployer
+environment:
+  account: "443880030635"
+  region: eu-west-1
+  maxConcurrency: 3
+  envConcurrency: 3
+observability:
+  endpoint:
+  zones:

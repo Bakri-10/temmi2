@@ -1,0 +1,18 @@
+roles:
+  customer: CentralOrchestrationBuilderRole
+  source: IaCCrossAccountCodeCommitRole
+  vending: CentralOrchestrationDeployer
+environment:
+  account: "959904340079"
+  region: eu-west-1
+  maxConcurrency: 3
+  envConcurrency: 3
+observability:
+  endpoint: arn:aws:logs:eu-west-1:175104400499:destination:app-logging-dev-cwlogs-endpoint 
+  zones: 
+    - "staging"
+    - "engineering"
+tags:
+  BillingCode: ""
+  Project: ""
+  Owner: ""

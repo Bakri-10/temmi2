@@ -1,0 +1,60 @@
+version: 0.2
+phases:
+  install: 
+    runtime-versions: 
+      nodejs: 20
+  pre_build: 
+    commands:
+      # backup current credentials
+      - echo "Backup current credentials"
+      - export OLD_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+      - export OLD_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+      - export OLD_AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
+      - export OLD_AWS_REGION=$AWS_REGION
+      # Get credentials for target account
+      - export ROLE_ARN="arn:aws:iam::$TARGET_ACCOUNT:role/$TARGET_ROLE"
+      - echo "Get credentials for $ROLE_ARN"
+      - aws sts assume-role --role-arn $ROLE_ARN --role-session-name "pullCustomerRepo" --query 'Credentials.{a:AccessKeyId, b:SecretAccessKey,c:SessionToken}' --output text > roleToassume.txt
+      - accessKeys=$(cat ./roleToassume.txt)
+      - rm ./roleToassume.txt
+      # Assume role in target account
+      - echo "Assume role in target account"
+      - export AWS_ACCESS_KEY_ID=$(echo $accessKeys | cut -d' ' -f1)
+      - export AWS_SECRET_ACCESS_KEY=$(echo $accessKeys | cut -d' ' -f2)
+      - export AWS_SESSION_TOKEN=$(echo $accessKeys | cut -d' ' -f3)
+      - export AWS_REGION=${CODE_REGION}
+      # Get credentials for source code account
+      - export ROLE_ARN="arn:aws:iam::$CODE_ACCOUNT:role/$CUSTOMER_NAME-$CODE_ROLE"
+      - echo "Get credentials for $ROLE_ARN"
+      - aws sts assume-role --role-arn $ROLE_ARN --role-session-name "pullCustomerRepo" --query 'Credentials.{a:AccessKeyId, b:SecretAccessKey,c:SessionToken}' --output text > roleToassume.txt
+      - accessKeys=$(cat ./roleToassume.txt)
+      - rm ./roleToassume.txt
+      # Assume role in source code account
+      - echo "Assume role in source code account"
+      - export AWS_ACCESS_KEY_ID=$(echo $accessKeys | cut -d' ' -f1)
+      - export AWS_SECRET_ACCESS_KEY=$(echo $accessKeys | cut -d' ' -f2)
+      - export AWS_SESSION_TOKEN=$(echo $accessKeys | cut -d' ' -f3)
+      - export AWS_REGION=${CODE_REGION}
+  build: 
+    commands:
+      - echo "Configure credential helper"
+      - git config --global credential.helper '!aws codecommit credential-helper $@'
+      - git config --global credential.UseHttpPath true
+      - export REPOSITORY_URL=https://git-codecommit.${CODE_REGION}.amazonaws.com/v1/repos/${CODE_REPOSITORY}
+      - echo "Clone branch ${CODE_BRANCH} from $REPOSITORY_URL"
+      - git clone --depth=1 --single-branch --branch ${CODE_BRANCH} ${REPOSITORY_URL} customer-repo
+      - cd customer-repo
+      - pwd
+      - "ls -la"  
+      - echo "Copy template file to artifact bucket"
+      - echo $ARTIFACT_BUCKET_NAME
+      - echo $BUCKET_PATH
+      - ls -la
+      - echo "Restore code build credentials"
+      - export AWS_ACCESS_KEY_ID=$OLD_AWS_ACCESS_KEY_ID
+      - export AWS_SECRET_ACCESS_KEY=$OLD_AWS_SECRET_ACCESS_KEY
+      - export AWS_SESSION_TOKEN=$OLD_AWS_SESSION_TOKEN
+      - export AWS_REGION=$OLD_AWS_REGION
+      - echo "CUSTOMER_CONFIG_FILE--${CUSTOMER_CONFIG_FILE}--"
+      - ls $CUSTOMER_CONFIG_FILE || not_exist=true
+      - if [ $not_exist ]; then echo \"Cannot find file - $ARTIFACT_BUCKET_NAME/$BUCKET_PATH/${CUSTOMER_CONFIG_FILE}\"; exit 101; else aws s3 cp --acl bucket-owner-full-control ${CUSTOMER_CONFIG_FILE} s3://$ARTIFACT_BUCKET_NAME/$BUCKET_PATH/${CUSTOMER_CONFIG_FILE}; fi
