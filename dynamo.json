@@ -1,0 +1,102 @@
+{
+  "pk": {
+    "S": "ENG"
+  },
+  "sk": {
+    "S": "akintadet"
+  },
+  "config": {
+    "M": {
+      "account": {
+        "S": "833451138176"
+      },
+      "allowedRegions": {
+        "L": []
+      },
+      "CODE_REPOSITORY": {
+        "S": "fineos-central-orchestration"
+      },
+      "configAccount": {
+        "S": "039991878949"
+      },
+      "configBranch": {
+        "S": "main"
+      },
+      "configRegion": {
+        "S": "eu-west-1"
+      },
+      "configRepo": {
+        "S": "akintadet"
+      },
+      "controlFile": {
+        "S": "control.yml"
+      },
+      "controlTowerManaged": {
+        "BOOL": true
+      },
+      "custom": {
+        "M": {
+          "apotAccount": {
+            "S": "039991878949"
+          },
+          "apotBucket": {
+            "S": "apot-artefact-bucket-dev"
+          },
+          "ecrAccountIdentifier": {
+            "S": "274599178193"
+          },
+          "ecrIacImageName": {
+            "S": "tools/platform/iaccorerelease"
+          },
+          "ecrRegion": {
+            "S": "eu-west-1"
+          },
+          "ecrSgwImageName": {
+            "S": "tools/platform/servicegwcodebuild"
+          },
+          "prod": {
+            "BOOL": false
+          },
+          "skip_destroy": {
+            "BOOL": false
+          },
+          "skip_manual_approval": {
+            "BOOL": true
+          }
+        }
+      },
+      "customerPrefix": {
+        "S": "akintadet"
+      },
+      "emails": {
+        "L": [
+          {
+            "S": "temitope.akintade@fineos.com"
+          },
+          {
+            "S": "akintadet@fineos.com"
+          }
+        ]
+      },
+      "environments": {
+        "L": [
+          {
+            "S": "TA1"
+          },
+          {
+            "S": "TA2"
+          }
+        ]
+      },
+      "envPrefix": {
+        "S": "TA2"
+      },
+      "region": {
+        "S": "eu-west-1"
+      },
+      "snsTopicArn": {
+        "S": "arn:aws:sns:eu-west-1:959904340079:sfceng14269-ManualApproval-CentralOrchestrationNotification"
+      }
+    }
+  }
+}
